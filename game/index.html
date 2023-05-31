@@ -1,0 +1,471 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FNAF 2: Browser Edition</title>
+    <style>
+        canvas {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: black;
+        }
+
+        #camera_tablet {
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        .pressMessage {
+            z-index: 10;
+            color: white;
+            position: absolute;
+            font-family: sans-serif;
+            text-align: center;
+            width: 100%;
+        }
+
+        .pressMessage {
+            animation-name: h1anim;
+            animation-duration: 1s;
+            animation-delay: 1s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes h1anim {
+            from {
+                opacity: 0;
+            }
+            
+            25% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            75% {
+                opacity: 0.5;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        .cameras_tablet_hover {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(100, 0, 0, 0.0);
+            z-index: -3;
+        }
+
+        .cam {
+            width: 58px;
+            height: 37.5px;
+            background-color: rgba(0, 100, 0, 0);
+            position: absolute;
+        }
+
+        .cam1 {
+            left: 1118px;
+            top: 647px;
+        }
+
+        .cam2 {
+            left: 1253px;
+            top: 647px;
+        }
+
+        .cam3 {
+            left: 1117px;
+            top: 577px;
+        }
+
+        .cam4 {
+            left: 1252px;
+            top: 577px;
+        }
+
+        .cam5 {
+            left: 1121px;
+            top: 732px;
+        }
+        
+        .cam6 {
+            left: 1247px;
+            top: 732px;
+        }
+
+        .cam7 {
+            left: 1272px;
+            top: 517px;
+        }
+
+        .cam8 {
+            left: 1118px;
+            top: 507px;
+        }
+
+        .cam9 {
+            left: 1437px;
+            top: 476px;
+        }
+
+        .cam10 {
+            left: 1362px;
+            top: 592px;
+        }
+
+        .cam11 {
+            left: 1362px;
+            top: 592px;
+        }
+
+        .hover_block {
+            position: absolute;
+            z-index: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
+            background-color: transparent;
+            opacity: 0.0;
+        }
+
+        .button_light {
+            background-color: transparent;
+            opacity: 0.4;
+            width: 70px;
+            height: 70px;
+            position: absolute;
+            opacity: 1;
+        }
+
+        .light1 {
+            top: 405px;
+            left: 5px;
+        }
+
+        .light2 {
+            top: 400px;
+            left: 1460px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="pressMessage">PRESS ANYWHERE</h1>
+    <canvas id="canvas"></canvas>
+    <div class="hover_block">
+        <div class="button_light light1"></div>
+        <div class="button_light light2"></div>
+    </div>
+    <canvas id="camera_tablet"></canvas>
+    <div class="cameras_tablet_hover">
+        <div class="cam1 cam"></div>
+        <div class="cam2 cam"></div>
+        <div class="cam3 cam"></div>
+        <div class="cam4 cam"></div>
+        <div class="cam5 cam"></div>
+        <div class="cam6 cam"></div>
+        <div class="cam7 cam"></div>
+        <div class="cam8 cam"></div>
+        <div class="cam9 cam"></div>
+        <div class="cam10 cam"></div>
+        <div class="cam11 cam"></div>
+        <div class="cam12 cam"></div>
+    </div>
+
+    <div class="sounds">
+        <div class="ambient">
+            <audio preload src="./sounds/ambient/ambient1.wav" id="ambient1" loop></audio>
+            <audio preload src="./sounds/ambient/blip3.wav" id="blip"></audio>
+            <audio preload src="./sounds/ambient/buzzlight.wav" id="buzzlight" loop></audio>
+            <audio preload src="./sounds/ambient/fansound.wav" id="fan" loop></audio>
+            <audio preload src="./sounds/ambient/night_end.mp3" id="night_end"></audio>
+            <audio preload src="./sounds/ambient/yey.wav" id="yey"></audio>
+        </div>
+
+        <div class="animatronics">
+            <audio preload src="./sounds/animatronics/animatronic_scream.mp3" id="scream"></audio>
+            <audio preload src="./sounds/animatronics/hallway.mp3" id="hallway" loop></audio>
+            <audio preload src="./sounds/animatronics/mangl.mp3" id="mangl" loop></audio>
+            <audio preload src="./sounds/animatronics/marionette_killing.mp3" id="marionette_killing" loop></audio>
+            <audio preload src="./sounds/animatronics/metalrun.wav" id="metalrun"></audio>
+            <audio preload src="./sounds/animatronics/metalwalk1.wav" id="metalwalk1"></audio>
+            <audio preload src="./sounds/animatronics/metalwalk2.wav" id="metalwalk2"></audio>
+            <audio preload src="./sounds/animatronics/metalwalk3.wav" id="metalwalk3"></audio>
+            <audio preload src="./sounds/animatronics/music_box.mp3" id="music_box" loop></audio>
+            <audio preload src="./sounds/animatronics/ventwalk1.wav" id="ventwalk"></audio>
+            <audio preload src="./sounds/animatronics/walk1.wav" id="walk1"></audio>
+            <audio preload src="./sounds/animatronics/walk2.wav" id="walk2"></audio>
+            <audio preload src="./sounds/animatronics/walk3.wav" id="walk3"></audio>
+            <audio preload src="./sounds/animatronics/walk4.wav" id="walk4"></audio>
+            <audio preload src="./sounds/animatronics/walk5.wav" id="walk5"></audio>
+        </div>
+
+        <div class="baloonboy">
+            <audio preload src="./sounds/baloonboy/hello.wav" id="hello"></audio>
+            <audio preload src="./sounds/baloonboy/hi.wav" id="hi"></audio>
+            <audio preload src="./sounds/baloonboy/laugh.wav" id="laugh"></audio>
+        </div>
+
+        <div class="calls">
+            <audio preload src="./sounds/calls/call 1b.wav" id="call1"></audio>
+            <audio preload src="./sounds/calls/call 2b.wav" id="call2"></audio>
+            <audio preload src="./sounds/calls/call 3b.wav" id="call3"></audio>
+            <audio preload src="./sounds/calls/call 4b.wav" id="call4"></audio>
+            <audio preload src="./sounds/calls/call 5b.wav" id="call5"></audio>
+            <audio preload src="./sounds/calls/call 6b.wav" id="call6"></audio>
+        </div>
+
+        <div class="camera">
+            <audio preload src="./sounds/camera/camera_glitch.mp3" id="camera_glitch"></audio>
+            <audio preload src="./sounds/camera/monitor_pullup.mp3" id="monitor_pullup"></audio>
+            <audio preload src="./sounds/camera/stare.wav" id="stare" loop></audio>
+            <audio preload src="./sounds/camera/static2.wav" id="static" loop></audio>
+            <audio preload src="./sounds/camera/tablet_off.wav" id="tablet_off"></audio>
+            <audio preload src="./sounds/camera/tablet_on.wav" id="tablet_on"></audio>
+        </div>
+
+        <div class="flashlight">
+            <audio preload src="./sounds/flashlight/error.wav" id="error"></audio>
+            <audio preload src="./sounds/flashlight/flashlight.mp3" id="flashlight"></audio>
+        </div>
+
+        <div class="mask">
+            <audio preload src="./sounds/mask/mask.mp3" id="mask" loop></audio>
+            <audio preload src="./sounds/mask/mask_pulldown.wav" id="mask_pulldown"></audio>
+            <audio preload src="./sounds/mask/mask_pullup.wav" id="mask_pullup"></audio>
+        </div>
+    </div>
+
+    <div class="images">
+        <div class="places">
+            <div class="main_room">
+                <img src="./images/places/main_room/normal_hall_light.png" alt="" id="main_room_normal_hall_light">
+                <img src="./images/places/main_room/normal_left_light.png" alt="" id="main_room_normal_left_light">
+                <img src="./images/places/main_room/normal_right_light.png" alt="" id="main_room_normal_right_light">
+                <img src="./images/places/main_room/default.png" alt="" id="main_room_default">
+
+                <img src="./images/places/main_room/baloonboy_left_light.png" alt="" id="main_room_baloonboy_left_light">
+                <img src="./images/places/main_room/golden_freddy_hall_light.png" alt="" id="main_room_golden_freddy_hall_light">
+
+                <img src="./images/places/main_room/foxy_and_old_bonny_hall_light.png" alt="" id="main_room_foxy_and_old_bonny_hall_light">
+                <img src="./images/places/main_room/foxy_hall_light.png" alt="" id="main_room_foxy_hall_light">
+
+                <img src="./images/places/main_room/mangl_and_foxy_hall_light.png" alt="" id="main_room_mangl_and_foxy_hall_light">
+                <img src="./images/places/main_room/mangl_hall_light.png" alt="" id="main_room_mangl_hall_light">
+                <img src="./images/places/main_room/mangl_right_light.png" alt="" id="main_room_mangl_right_light">
+
+                <img src="./images/places/main_room/old_bonny_center.png" alt="" id="main_room_old_bonny_center">
+                <img src="./images/places/main_room/old_bonny_hall_light.png" alt="" id="main_room_old_bonny_hall_light">
+                <img src="./images/places/main_room/old_chicka_center.png" alt="" id="main_room_old_chicka_center">
+                <img src="./images/places/main_room/old_freddy_hall_light.png" alt="" id="main_room_old_freddy_hall_light">
+
+                <img src="./images/places/main_room/toy_bonny_right_light.png" alt="" id="main_room_toy_bonny_right_light">
+                <img src="./images/places/main_room/toy_chicka_hall_light.png" alt="" id="main_room_toy_chicka_hall_light">
+                <img src="./images/places/main_room/toy_chicka_left_light.png" alt="" id="main_room_toy_chicka_left_light">
+                <img src="./images/places/main_room/toy_freddy_hall_middle_light.png" alt="" id="main_room_toy_freddy_hall_middle_light">
+                <img src="./images/places/main_room/toy_freddy_hall_near_light.png" alt="" id="main_room_toy_freddy_hall_near_light">
+            </div>
+
+            <div class="game_area">
+                <img src="./images/places/game_area/baloonboy_dark.png" alt="" id="game_area_baloonboy_dark">
+                <img src="./images/places/game_area/baloonboy_light.png" alt="" id="game_area_baloonboy_light">
+            </div>
+
+            <div class="kids_cove">
+                <img src="./images/places/kids_cove/mangl_light.png" alt="" id="kids_cove_mangl_light">
+                <img src="./images/places/kids_cove/none_light.png" alt="" id="kids_cove_none_light">
+                <img src="./images/places/kids_cove/none_dark.png" alt="" id="kids_cove_none_dark">
+            </div>
+
+            <div class="left_vent">
+                <img src="./images/places/left_vent/none_dark.png" alt="" id="left_vent_none_dark">
+                <img src="./images/places/left_vent/none_light.png" alt="" id="left_vent_none_light">
+                <img src="./images/places/left_vent/baloonboy_light.png" alt="" id="left_vent_baloonboy_light">
+                <img src="./images/places/left_vent/toy_chicka_light.png" alt="" id="left_vent_toy_chicka_light">
+                <img src="./images/places/left_vent/old_bonny_light.png" alt="" id="left_vent_old_bonny_light">
+            </div>
+
+            <div class="main_hall">
+                <img src="./images/places/main_hall/none_dark.png" alt="" id="main_hall_none_dark">
+                <img src="./images/places/main_hall/none_light.png" alt="" id="main_hall_none_light">
+                <img src="./images/places/main_hall/old_bonny_light.png" alt="" id="main_hall_old_bonny_light">
+                <img src="./images/places/main_hall/old_freddy_light.png" alt="" id="main_hall_old_freddy_light">
+            </div>
+
+            <div class="parts_service">
+                <img src="./images/places/parts_service/all_light.png" alt="" id="parts_service_all_light">
+                <img src="./images/places/parts_service/foxy_light.png" alt="" id="parts_service_foxy_light">
+                <img src="./images/places/parts_service/none_light.png" alt="" id="parts_service_none_light">
+                <img src="./images/places/parts_service/old_freddy_light.png" alt="" id="parts_service_old_freddy_light">
+                <img src="./images/places/parts_service/shadow_freddy.png" alt="" id="parts_service_shadow_freddy">
+                <img src="./images/places/parts_service/none_dark.png" alt="" id="parts_service_none_dark">
+                <img src="./images/places/parts_service/chicka_and_freddy_light.png" alt="" id="parts_service_old_chicka_and_old_freddy_light">
+            </div>
+
+            <div class="party_room1">
+                <img src="./images/places/party_room1/none_dark.png" alt="" id="party_room1_none_dark">
+                <img src="./images/places/party_room1/none_light.png" alt="" id="party_room1_none_light">
+                <img src="./images/places/party_room1/old_bonny_light.png" alt="" id="party_room1_bonny_light">
+            </div>
+
+            <div class="party_room2">
+                <img src="./images/places/party_room2/none_dark.png" alt="" id="party_room2_none_dark">
+                <img src="./images/places/party_room2/none_light.png" alt="" id="party_room2_none_light">
+                <img src="./images/places/party_room2/none_light.png" alt="" id="party_room2_old_chicka_dark">
+                <img src="./images/places/party_room2/none_light.png" alt="" id="party_room2_old_chicka_light">
+                <img src="./images/places/party_room2/none_light.png" alt="" id="party_room2_toy_bonny_light">
+            </div>
+
+            <div class="party_room3">
+                <img src="./images/places/party_room3/none_dark.png" alt="" id="party_room3_none_dark">
+                <img src="./images/places/party_room3/none_light.png" alt="" id="party_room3_none_light">
+                <img src="./images/places/party_room3/none_light.png" alt="" id="party_room3_old_freddy_dark">
+                <img src="./images/places/party_room3/none_light.png" alt="" id="party_room3_old_freddy_light">
+                <img src="./images/places/party_room3/none_light.png" alt="" id="party_room3_toy_bonny_light">
+            </div>
+
+            <div class="party_room4">
+                <img src="./images/places/party_room4/none_dark.png" alt="" id="party_room4_none_dark">
+                <img src="./images/places/party_room4/none_light.png" alt="" id="party_room4_none_light">
+                <img src="./images/places/party_room4/none_light.png" alt="" id="party_room4_old_chicka_light">
+                <img src="./images/places/party_room4/none_light.png" alt="" id="party_room4_toy_bonny_dark">
+                <img src="./images/places/party_room4/none_light.png" alt="" id="party_room4_toy_bonny_light">
+                <img src="./images/places/party_room4/none_light.png" alt="" id="party_room4_toy_chicka_light">
+            </div>
+
+            <div class="prize_corner">
+                <img src="./images/places/prize_corner/box_opened_light.png" alt="" id="prize_corner_box_opened_light">
+                <img src="./images/places/prize_corner/none_light.png" alt="" id="prize_corner_none_light">
+                <img src="./images/places/prize_corner/none_dark.png" alt="" id="prize_corner_none_dark">
+                <img src="./images/places/prize_corner/marionette_stage1_light.png" alt="" id="prize_corner_marionette_stage1_light">
+                <img src="./images/places/prize_corner/marionette_stage2_light.png" alt="" id="prize_corner_marionette_stage2_light">
+            </div>
+
+            <div class="right_vent">
+                <img src="./images/places/right_vent/mangl_light.png" alt="" id="right_vent_mangl_light">
+                <img src="./images/places/right_vent/none_dark.png" alt="" id="right_vent_none_dark">
+                <img src="./images/places/right_vent/none_light.png" alt="" id="right_vent_none_light">
+                <img src="./images/places/right_vent/old_chicka_light.png" alt="" id="right_vent_old_chicka_light">
+                <img src="./images/places/right_vent/toy_bonny_light.png" alt="" id="right_vent_toy_bonny_light">
+            </div>
+
+            <div class="show_stage">
+                <img src="./images/places/show_stage/all_dark.png" alt="" id="show_stage_all_dark">
+                <img src="./images/places/show_stage/all_light.png" alt="" id="show_stage_all_light">
+                <img src="./images/places/show_stage/freddy_and_chicka_dark.png" alt="" id="show_stage_toy_freddy_and_toy_chicka_dark">
+                <img src="./images/places/show_stage/freddy_and_chicka_light.png" alt="" id="show_stage_toy_freddy_and_toy_chicka_light">
+                <img src="./images/places/show_stage/freddy_dark.png" alt="" id="show_stage_toy_freddy_dark">
+                <img src="./images/places/show_stage/freddy_light.png" alt="" id="show_stage_toy_freddy_light">
+            </div>
+        </div>
+        
+        <div class="table">
+            <img src="./images/table/1.png" alt="" id="table1">
+            <img src="./images/table/2.png" alt="" id="table2">
+            <img src="./images/table/3.png" alt="" id="table3">
+            <img src="./images/table/4.png" alt="" id="table4">
+        </div>
+
+        <div class="camera">
+            <div class="decor">
+                <img src="./images/cams/map.png" alt="" id="cam_map">
+            </div>
+
+            <div class="pull_animation">
+                <img src="./images/cams/tablet/0.png" alt="" id="tablet_pull_animation0">
+                <img src="./images/cams/tablet/1.png" alt="" id="tablet_pull_animation1">
+                <img src="./images/cams/tablet/2.png" alt="" id="tablet_pull_animation2">
+                <img src="./images/cams/tablet/3.png" alt="" id="tablet_pull_animation3">
+                <img src="./images/cams/tablet/4.png" alt="" id="tablet_pull_animation4">
+                <img src="./images/cams/tablet/5.png" alt="" id="tablet_pull_animation5">
+                <img src="./images/cams/tablet/6.png" alt="" id="tablet_pull_animation6">
+                <img src="./images/cams/tablet/7.png" alt="" id="tablet_pull_animation7">
+                <img src="./images/cams/tablet/8.png" alt="" id="tablet_pull_animation8">
+                <img src="./images/cams/tablet/9.png" alt="" id="tablet_pull_animation9">
+                <img src="./images/cams/tablet/10.png" alt="" id="tablet_pull_animation10">
+            </div>
+
+            <div class="cam_texts">
+                <div class="numbers">
+                    <img src="./images/cams/camTexts/numbers/1.png" alt="" id="cam_number_1">
+                    <img src="./images/cams/camTexts/numbers/2.png" alt="" id="cam_number_2">
+                    <img src="./images/cams/camTexts/numbers/3.png" alt="" id="cam_number_3">
+                    <img src="./images/cams/camTexts/numbers/4.png" alt="" id="cam_number_4">
+                    <img src="./images/cams/camTexts/numbers/5.png" alt="" id="cam_number_5">
+                    <img src="./images/cams/camTexts/numbers/6.png" alt="" id="cam_number_6">
+                    <img src="./images/cams/camTexts/numbers/7.png" alt="" id="cam_number_7">
+                    <img src="./images/cams/camTexts/numbers/8.png" alt="" id="cam_number_8">
+                    <img src="./images/cams/camTexts/numbers/9.png" alt="" id="cam_number_9">
+                    <img src="./images/cams/camTexts/numbers/10.png" alt="" id="cam_number_10">
+                    <img src="./images/cams/camTexts/numbers/11.png" alt="" id="cam_number_11">
+                    <img src="./images/cams/camTexts/numbers/12.png" alt="" id="cam_number_12">
+
+                    <img src="./images/cams/camTexts/numbers/active.png" alt="" id="active_camera">
+                    <img src="./images/cams/camTexts/numbers/not_active.png" alt="" id="not_active_camera">
+                </div>
+            </div>
+
+            <div class="grayscales">
+                <img src="./images/cams/grayimages/0.png" alt="" id="grayscale0">
+                <img src="./images/cams/grayimages/0.png" alt="" id="grayscale1">
+                <img src="./images/cams/grayimages/0.png" alt="" id="grayscale2">
+                <img src="./images/cams/grayimages/0.png" alt="" id="grayscale3">
+                <img src="./images/cams/grayimages/0.png" alt="" id="grayscale4">
+                <img src="./images/cams/grayimages/0.png" alt="" id="grayscale5">
+                <img src="./images/cams/grayimages/0.png" alt="" id="grayscale6">
+                <img src="./images/cams/grayimages/0.png" alt="" id="grayscale7">
+                <img src="./images/cams/grayimages/0.png" alt="" id="grayscale8">
+                <img src="./images/cams/grayimages/0.png" alt="" id="grayscale9">
+                <img src="./images/cams/grayimages/0.png" alt="" id="grayscale10">
+                <img src="./images/cams/grayimages/0.png" alt="" id="grayscale11">
+            </div>
+
+            <div class="switch_animation">
+                <img src="./images/cams/switch_animation/1.png" alt="" id="switch_animation0">
+                <img src="./images/cams/switch_animation/2.png" alt="" id="switch_animation1">
+                <img src="./images/cams/switch_animation/3.png" alt="" id="switch_animation2">
+                <img src="./images/cams/switch_animation/4.png" alt="" id="switch_animation3">
+                <img src="./images/cams/switch_animation/5.png" alt="" id="switch_animation4">
+            </div>
+        </div>
+
+        <div class="light_buttons">
+            <img src="./images/lights_buttons/left_off.png" alt="" id="light_left_off">
+            <img src="./images/lights_buttons/left_on.png" alt="" id="light_left_on">
+            <img src="./images/lights_buttons/right_off.png" alt="" id="light_right_off">
+            <img src="./images/lights_buttons/right_on.png" alt="" id="light_right_on">
+        </div>
+
+        <div class="battery">
+            <img src="./images/battery/0.png" alt="" id="battery0">
+            <img src="./images/battery/1.png" alt="" id="battery1">
+            <img src="./images/battery/2.png" alt="" id="battery2">
+            <img src="./images/battery/3.png" alt="" id="battery3">
+            <img src="./images/battery/4.png" alt="" id="battery4">
+        </div>
+    </div>  
+</body>
+<script src="./audioscript.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="./script.js"></script>
+</html>

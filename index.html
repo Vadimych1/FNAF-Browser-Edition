@@ -1,0 +1,207 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FNAF 2: Browser Edition</title>
+    <style>
+        body {
+            overflow: hidden;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            top: 0;
+            left: 0;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .buttons {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: transparent;
+            z-index: 2;
+        }
+
+        input {
+            margin-left: 20px;
+            border: none;
+            background-color: transparent;
+            color: white;
+            font-size: 34px;
+        }
+
+        input:hover{
+            color: gray;
+        }
+
+        .gimage{
+            z-index: 1;
+            width: 120%;
+            height: 120%;
+            position: absolute;
+            top: -10%;
+            left: -10%;
+        }
+
+        .after{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: black;
+            z-index: -2;
+            color: #fff;
+            font-family: sans-serif;
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+            padding-top: 16%;
+        }
+
+        .message {
+            z-index: 0;
+            color: #fff;
+            font-family: sans-serif;
+            font-size: 30px;
+        }
+
+        .buttons h1 {
+            color: #fff;
+            text-transform: uppercase;
+            font-family: sans-serif;
+            margin-left: 50px;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="buttons">
+        <br>
+        <h1>Five<br>Nights<br>at Freddy`s:<br>Browser Edidtion</h1>
+        <br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br>
+        <input type="button" value="START" onclick="start()" class="start">
+        <br>
+        <input type="button" value="SETTINGS" class="settings">
+    </div>
+    <img src="./images/grayscale.jpg" alt=" " class="gimage">
+    <div class="after"><h1 class="afterh1"></h1><h2>12 PM</h2></div>
+    <h1 class="message">Click anywhere to start music</h1>
+
+    <audio src="./music/main_menu.mp3" loop class="audio1"></audio>
+    <audio src="./music/blip3.wav" class="audio2"></audio>
+</body> 
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script>
+    document.addEventListener("click", smusic)
+    
+    function smusic() {
+        document.querySelector(".audio1").pause();
+
+        document.querySelector(".audio1").play();
+
+        $(".message").hide("0.1s");
+        document.removeEventListener("click", smusic);
+    }
+
+    document.querySelector(".settings").addEventListener("click", function () {
+        document.querySelector(".audio2").play()
+    })
+
+    document.querySelector(".start").addEventListener("click", function () {
+        document.querySelector(".audio2").play()
+    })
+
+    function getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : null;
+    }
+
+    $(".after").fadeTo(0, 0);
+
+    function start() {
+        document.querySelector(".audio1").pause();
+
+        let nightC = getCookie("night")
+        let night = nightC? night : 1;
+
+        $(".afterh1").text("NIGHT "+night)
+        document.querySelector(".after").style.zIndex = 5;
+        $(".after").fadeTo("0.05s", 1);
+
+        setTimeout(function () {
+            let a = document.createElement("a");
+            a.href = "./game/"
+            a.click()
+        }, 3000)
+    }; 
+
+    let cvs = document.querySelector("canvas");
+    let ctx = cvs.getContext("2d");
+
+    let backgroundImage = new Image();
+    backgroundImage.src = "./images/background.png";
+
+    let bonnyImage = new Image();
+    bonnyImage.src = "./images/bonny.png";
+
+    let chickaImage = new Image();
+    chickaImage.src = "./images/chicka.png";
+
+    let freddyImage = new Image();
+    freddyImage.src = "./images/freddy.png";
+
+    let gray = $(".gimage");
+    let graye = document.querySelector(".gimage");
+    cvs.width = window.innerWidth;
+    cvs.height = window.innerHeight;
+    
+    ctx.font = "24px sans-serif";
+    ctx.fillStyle = "white";
+
+    let rnd2 = Math.random()
+    let rnd = Math.random()
+
+    setInterval(function () {
+        rnd2 = Math.random()
+    }, 100)
+
+    setInterval(function () {
+        rnd = Math.random()
+    }, 100)
+
+    function draw() {
+        requestAnimationFrame(draw);
+        if (rnd2<0.8) {
+            ctx.drawImage(backgroundImage, 0, 0, cvs.width, cvs.height);
+        } else {
+            if (rnd<=0.3) {
+                ctx.drawImage(freddyImage, 0, 0, cvs.width, cvs.height);
+            } else if (rnd<=0.6) {
+                ctx.drawImage(bonnyImage, 0, 0, cvs.width, cvs.height);
+            } else {
+                ctx.drawImage(chickaImage, 0, 0, cvs.width, cvs.height);
+            }
+            
+        }
+        ctx.fillText("Created by Vadimych1", cvs.width-250, cvs.height-15)
+        gray.fadeTo("0.1s", Math.random());
+        graye.style.top = -Math.trunc(Math.random()*10)+"%";
+        graye.style.left = -Math.trunc(Math.random()*10)+"%";
+    }
+
+    requestAnimationFrame(draw);
+    
+</script>
+</html>
